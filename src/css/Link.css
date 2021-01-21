@@ -1,0 +1,19 @@
+* {
+  box-sizing: border-box;
+}
+
+.Link-div {
+  display: flex;
+}
+
+.right-Link-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background-color: cornsilk;
+}
+
+.right-Link-div div {
+  padding: 3px;
+  margin: 0px 5px;
+}
