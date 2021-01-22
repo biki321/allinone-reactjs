@@ -4,6 +4,7 @@ import Link, { LinkI } from "./Link";
 import { apiStates, useApi } from "../hooks/useApi";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
+import { apiurl } from "../apiurl";
 
 interface PropsI {
   //   links: LinkI[];
@@ -16,7 +17,7 @@ const deleteLink = async (
   id: number,
   token: string
 ): Promise<{ res: boolean }> => {
-  const url = `http://localhost:8032/api/delete/${id}`;
+  const url = `${apiurl}/api/delete/${id}`;
   try {
     const { data } = await axios({
       url: url,
@@ -27,7 +28,7 @@ const deleteLink = async (
     });
     return { res: true };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return { res: false };
   }
 };
@@ -38,7 +39,7 @@ export default function LinksContainer({
   forceBit,
 }: PropsI) {
   const { state, error, dataArray } = useApi(
-    `http://localhost:8032/api/links/${brandName}`,
+    `${apiurl}/api/links/${brandName}`,
     forceBit
   );
 

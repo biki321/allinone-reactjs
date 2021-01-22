@@ -24,8 +24,8 @@ function Dashboard() {
   //this hook is used to force refresh the app
   const [forceBit, forceRefresh] = useState(1);
   return (
-    <Container className="d-flex align-items-center justify-content-center">
-      <div className="App w-100">
+    <Container className="d-flex justify-content-center">
+      <div className="App">
         <AddLink forceRefresh={forceRefresh} forceBit={forceBit} />
         <BrandsNavs
           active={brandName}

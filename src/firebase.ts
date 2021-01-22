@@ -2,7 +2,7 @@ import firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/messaging";
 import axios from "axios";
-import { getTokenSourceMapRange } from "typescript";
+import { apiurl } from "./apiurl";
 
 var firebaseConfig = {
   apiKey: "AIzaSyDDi6t_zCvkGKeh90u0cvxVm7hml8K6xbs",
@@ -30,24 +30,16 @@ export const getToken = async () => {
     })
     .then(async (currentToken) => {
       if (currentToken) {
-        console.log("current token for client: ", currentToken);
         try {
           await sendFCMTokenToServer(currentToken, authtoken);
-        } catch (error) {
-          console.log(error);
-        }
+        } catch (error) {}
         // Track the token -> client mapping, by sending to backend server
         // show on the UI that permission is secured
       } else {
-        console.log(
-          "No registration token available. Request permission to generate one."
-        );
-
         // shows on the UI that permission is required
       }
     })
     .catch((err) => {
-      console.log("An error occurred while retrieving token. ", err);
       // catch error while creating client token
     });
 };
@@ -57,9 +49,9 @@ const sendFCMTokenToServer = async (
   authtoken: string
 ) => {
   try {
-    const res = await axios({
+    await axios({
       method: "post",
-      url: "http://localhost:8032/api/subscribe",
+      url: `${apiurl}/api/subscribe`,
       data: {
         fcmtoken: currentToken,
       },
@@ -79,8 +71,6 @@ const sendFCMTokenToServer = async (
 //     });
 //   });
 
-messaging.onMessage((payload) => {
-  console.log("Message received. ", payload);
-});
+messaging.onMessage((payload) => {});
 
 // getToken();

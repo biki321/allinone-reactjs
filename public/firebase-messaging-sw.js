@@ -19,37 +19,35 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 // //To stop listening for messages execute this returned function(unSubscribe)
-// messaging.onBackgroundMessage((payload) => {
+messaging.onBackgroundMessage((payload) => {
 
-//   console.log('Received background message ', payload);
 
-//   const notificationTitle = payload.notification.title;
-//   const notificationOptions = {
-//     body: payload.notification.body,
-//     // tag: "notification-1",
-//     actions: [{ action: "open_url", title: "Read Now" }],
-//     data: {
-//       url: payload.data.url
-//     }
-//   };
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
+    // tag: "notification-1",
+    actions: [{ action: "open_url", title: "Read Now" }],
+    data: {
+      url: payload.data.url
+    }
+  };
 
-//   return self.registration.showNotification(notificationTitle,
-//     notificationOptions);
-// });
+  return self.registration.showNotification(notificationTitle,
+    notificationOptions);
+});
 
-// self.addEventListener('notificationclick', function (event) {
-//   console.log('sgsa');
-//   console.log(event.notification.data.url)
+self.addEventListener('notificationclick', function (event) {
 
-//   switch (event.action) {
-//     case 'open_url':
-//       event.notification.close()
-//       event.waitUntil(
-//         self.clients.openWindow(event.notification.data.url)
-//       )
-//       break;
-//     default:
-//       break;
-//   }
-// }
-//   , false);
+
+  switch (event.action) {
+    case 'open_url':
+      event.notification.close()
+      event.waitUntil(
+        self.clients.openWindow(event.notification.data.url)
+      )
+      break;
+    default:
+      break;
+  }
+}
+  , false);

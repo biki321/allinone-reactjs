@@ -1,4 +1,5 @@
 import axios from "axios";
+import { apiurl } from "./apiurl";
 
 interface AddLinkData {
   url: string;
@@ -9,9 +10,9 @@ interface AddLinkData {
 
 export async function addLink(dataFields: AddLinkData, token: string) {
   try {
-    const { data } = await axios({
+    await axios({
       method: "post",
-      url: "http://localhost:8032/api/add",
+      url: `${apiurl}/api/add`,
       headers: {
         "auth-token": token,
       },
@@ -28,7 +29,7 @@ export async function listOfbrands(token: string) {
   try {
     const { data } = await axios({
       method: "get",
-      url: "http://localhost:8032/api/company",
+      url: `${apiurl}/api/company`,
       headers: {
         "auth-token": token,
       },

@@ -1,6 +1,7 @@
 import React from "react";
 import "../css/BrandsNavs.css";
 import { useApi, apiStates } from "../hooks/useApi";
+import { apiurl } from "../apiurl";
 
 interface PropsI {
   active: string;
@@ -9,10 +10,7 @@ interface PropsI {
 }
 
 export default function BrandsNavs({ active, handleClick, forceBit }: PropsI) {
-  const { state, error, dataArray } = useApi(
-    `http://localhost:8032/api/company`,
-    forceBit
-  );
+  const { state, error, dataArray } = useApi(`${apiurl}/api/company`, forceBit);
 
   switch (state) {
     case apiStates.ERROR:

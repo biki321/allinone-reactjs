@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useContext, useState, useEffect } from "react";
+import { apiurl } from "../apiurl";
 
 interface CurrentUser {
   email: string;
@@ -11,12 +12,14 @@ interface ContextI {
   currentUser: CurrentUser | null;
   login: ((email: string, password: string) => Promise<void>) | null;
   signup: ((email: string, password: string) => Promise<void>) | null;
+  logout: (() => void) | null;
 }
 
 const AuthContext = React.createContext<ContextI>({
   currentUser: null,
   login: null,
   signup: null,
+  logout: null,
 });
 
 export function useAuth() {
@@ -31,13 +34,12 @@ export function AuthProvider({ children }: any) {
     try {
       const res = await axios({
         method: "post",
-        url: "http://localhost:8032/api/user/signup",
+        url: `${apiurl}/api/user/signup`,
         data: {
           email: email,
           password: password,
         },
       });
-      console.log(res);
       localStorage.setItem("alino", res.data["auth-token"]);
       //   res.data["token"] = res.headers["auth-token"];
       setCurrentUser(res.data);
@@ -51,13 +53,12 @@ export function AuthProvider({ children }: any) {
     try {
       const res = await axios({
         method: "post",
-        url: "http://localhost:8032/api/user/login",
+        url: `${apiurl}/api/user/login`,
         data: {
           email: email,
           password: password,
         },
       });
-      console.log(res);
       localStorage.setItem("alino", res.data["auth-token"]);
       //   res.data["token"] = res.headers["auth-token"];
       setCurrentUser(res.data);
@@ -67,29 +68,32 @@ export function AuthProvider({ children }: any) {
     }
   }
 
+  function logout() {
+    localStorage.removeItem("alino");
+    setCurrentUser(null);
+    setLoading(false);
+  }
+
   useEffect(() => {
     const token = localStorage.getItem("alino");
     const source = axios.CancelToken.source();
 
-    console.log(token);
     if (token) {
       axios({
         method: "get",
-        url: "http://localhost:8032/api/user/currentuser",
+        url: `${apiurl}/api/user/currentuser`,
         headers: {
           "auth-token": token,
         },
         cancelToken: source.token,
       })
         .then((res) => {
-          console.log(res.data);
           //   res.data["token"] = token;
 
           setCurrentUser(res.data);
           setLoading(false);
         })
         .catch((error) => {
-          console.log(error);
           if (axios.isCancel(error)) {
             console.log("caught error cancel");
           } else {
@@ -98,16 +102,16 @@ export function AuthProvider({ children }: any) {
           }
         });
     } else {
-      console.log("not token found");
+      // console.log("not token found");
       setLoading(false);
     }
     return () => {
-      console.log("cleanded");
+      // console.log("cleanded");
       source.cancel();
     };
   }, []);
 
-  const value = { currentUser, signup, login };
+  const value = { currentUser, signup, login, logout };
 
   return (
     <AuthContext.Provider value={value}>

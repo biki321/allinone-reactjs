@@ -12,7 +12,6 @@ interface PropsI {
 export default function AddLink({ forceRefresh, forceBit }: PropsI) {
   const [dataFields, setFields] = useState({
     url: "",
-    note: "",
     remindat: "", //date time
     needRemind: true,
   });
@@ -22,7 +21,14 @@ export default function AddLink({ forceRefresh, forceBit }: PropsI) {
   const onChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    setFields({ ...dataFields, [e.target.name]: e.target.value });
+    if (e.target.name === "remindat" && e.target.value) {
+      setFields({
+        ...dataFields,
+        [e.target.name]: new Date(e.target.value).toISOString(),
+      });
+    } else {
+      setFields({ ...dataFields, [e.target.name]: e.target.value });
+    }
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -37,12 +43,11 @@ export default function AddLink({ forceRefresh, forceBit }: PropsI) {
       await addLink(dataFields, currentUser!["auth-token"]);
       forceRefresh((prev) => prev + 1);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
 
     setFields({
       url: "",
-      note: "",
       remindat: "",
       needRemind: true,
     });
@@ -63,20 +68,10 @@ export default function AddLink({ forceRefresh, forceBit }: PropsI) {
             value={dataFields["url"]}
             onChange={(e) => onChange(e)}
           />
-          <TextField
-            id="note"
-            label="short note"
-            name="note"
-            multiline
-            rows={3}
-            variant="outlined"
-            size="small"
-            value={dataFields["note"]}
-            onChange={(e) => onChange(e)}
-          />
         </div>
         <div>
           <TextField
+            style={{ margin: "10px 10px 10px 0px" }}
             id="datetime-local"
             name="remindat"
             label="remind me at"
@@ -89,6 +84,7 @@ export default function AddLink({ forceRefresh, forceBit }: PropsI) {
             onChange={(e) => onChange(e)}
           />
           <Button
+            style={{ marginTop: "10px" }}
             type="submit"
             variant="contained"
             color="primary"

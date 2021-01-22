@@ -33,50 +33,52 @@ export default function SignUp() {
   }
 
   return (
-    <div>
-      <Card>
-        <Card.Body>
-          <h2 className="text-center mb-4">Sign up</h2>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group id="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                name="email"
-                ref={emailRef}
-                placeholder="Enter email"
-                required
-              ></Form.Control>
-            </Form.Group>
-            <Form.Group id="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                ref={passwordRef}
-                placeholder="Enter Password"
-                required
-              ></Form.Control>
-            </Form.Group>
-            <Form.Group id="password-confirm">
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control
-                type="password"
-                name="password-confirm"
-                ref={passwordconfirmRef}
-                placeholder="Confirm Password"
-                required
-              ></Form.Control>
-            </Form.Group>
-            <Button disabled={loading} className="w-100" type="submit">
-              Sign Up
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-      <div className="w-100 text-center mt-2">
-        Already have an account? <Link to="/login">Log In</Link>
+    <div className="w-100 d-flex justify-content-center">
+      <div style={{ minWidth: "300px" }}>
+        <Card>
+          <Card.Body>
+            <h2 className="text-center mb-4">Sign up</h2>
+            {error && <Alert variant="danger">{error}</Alert>}
+            <Form onSubmit={handleSubmit}>
+              <Form.Group id="email">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  name="email"
+                  ref={emailRef}
+                  placeholder="Enter email"
+                  required
+                ></Form.Control>
+              </Form.Group>
+              <Form.Group id="password">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="password"
+                  ref={passwordRef}
+                  placeholder="Enter Password"
+                  required
+                ></Form.Control>
+              </Form.Group>
+              <Form.Group id="password-confirm">
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="password-confirm"
+                  ref={passwordconfirmRef}
+                  placeholder="Confirm Password"
+                  required
+                ></Form.Control>
+              </Form.Group>
+              <Button disabled={loading} className="w-100" type="submit">
+                Sign Up
+              </Button>
+            </Form>
+          </Card.Body>
+        </Card>
+        <div className="w-100 text-center mt-2">
+          Already have an account? <Link to="/login">Log In</Link>
+        </div>
       </div>
     </div>
   );
