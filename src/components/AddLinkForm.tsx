@@ -21,14 +21,7 @@ export default function AddLink({ forceRefresh, forceBit }: PropsI) {
   const onChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    if (e.target.name === "remindat" && e.target.value) {
-      setFields({
-        ...dataFields,
-        [e.target.name]: new Date(e.target.value).toISOString(),
-      });
-    } else {
-      setFields({ ...dataFields, [e.target.name]: e.target.value });
-    }
+    setFields({ ...dataFields, [e.target.name]: e.target.value });
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -38,9 +31,13 @@ export default function AddLink({ forceRefresh, forceBit }: PropsI) {
     try {
       await getToken();
     } catch (error) {}
-
+    const d = {
+      url: dataFields.url,
+      remindat: new Date(dataFields.remindat).toISOString(),
+      needRemind: dataFields.needRemind,
+    };
     try {
-      await addLink(dataFields, currentUser!["auth-token"]);
+      await addLink(d, currentUser!["auth-token"]);
       forceRefresh((prev) => prev + 1);
     } catch (error) {
       // console.log(error);

@@ -60,7 +60,7 @@ const sendFCMTokenToServer = async (
       },
     });
   } catch (error) {
-    throw error;
+    // throw error;
   }
 };
 

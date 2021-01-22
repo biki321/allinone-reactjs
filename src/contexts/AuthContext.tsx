@@ -95,7 +95,7 @@ export function AuthProvider({ children }: any) {
         })
         .catch((error) => {
           if (axios.isCancel(error)) {
-            console.log("caught error cancel");
+            // console.log("caught error cancel");
           } else {
             setCurrentUser(null);
             setLoading(false);

@@ -20,7 +20,7 @@ const messaging = firebase.messaging();
 
 // //To stop listening for messages execute this returned function(unSubscribe)
 messaging.onBackgroundMessage((payload) => {
-
+  console.log(payload)
 
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
