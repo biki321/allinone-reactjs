@@ -33,7 +33,10 @@ export default function AddLink({ forceRefresh, forceBit }: PropsI) {
     } catch (error) {}
     const d = {
       url: dataFields.url,
-      remindat: new Date(dataFields.remindat).toISOString(),
+      remindat:
+        dataFields.remindat !== ""
+          ? new Date(dataFields.remindat).toISOString()
+          : "",
       needRemind: dataFields.needRemind,
     };
     try {
