@@ -19,6 +19,7 @@ const deleteLink = async (
 ): Promise<{ res: boolean }> => {
   const url = `${apiurl}/api/delete/${id}`;
   try {
+    //eslint-disable-next-line
     const { data } = await axios({
       url: url,
       method: "delete",
